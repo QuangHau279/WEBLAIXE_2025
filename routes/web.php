@@ -108,7 +108,6 @@ Route::get('/thi-thu/de/{id}', fn ($id) => view('thi.lamde', ['deId' => $id]))
     ->whereNumber('id')->name('thi.lamde');
 
 Route::get('/chatbox', fn() => view('pages.chatbox'))->name('chatbox');
-<<<<<<< HEAD
 
 //PHUC
 Route::get('/index', [DashboardController::class, 'home'])->name('dashboard');
@@ -190,7 +189,4 @@ Route::get('mophongbanglai/delete/{id}', [TblMoPhongBangLaiController::class, 'd
 }
 );
 //END PHUC
-=======
-Route::get('/test-detection', fn() => view('pages.test-detection'))->name('test.detection');
-Route::get('/test-detection/python', [TestDetectionController::class, 'testPython'])->name('test.detection.python');
->>>>>>> 6fd0e9239ca47667679c2ee4f44d22e24779cd79
+
