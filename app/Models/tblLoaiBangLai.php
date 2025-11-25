@@ -13,5 +13,5 @@ class tblLoaiBangLai extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['id', 'ten', 'socauhoi', 'mincauhoidung', 'active'];
+    protected $fillable = ['id', 'ten', 'socauhoi', 'mincauhoidung', 'active', 'thoigian'];
 }

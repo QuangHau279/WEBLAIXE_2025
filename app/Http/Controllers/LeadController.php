@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Validator;
 
 class LeadController extends Controller
 {
+    public function index()
+    {
+        $leads = Lead::all()->sortByDesc('created_at');
+        return view('admin.dangki.index', compact('leads'));
+    }
     /**
      * Lưu thông tin đăng ký từ form
      */

@@ -39,6 +39,10 @@
                     <input type="number" step="1" name="mincauhoidung" value="{{ $banglai->mincauhoidung ?? '' }}" placeholder="Số câu hỏi đúng tối thiểu" class="form-control">
                 </div>
                 <div class="form-group">
+                    <label>Thời gian (phút)</label>
+                    <input type="number" step="1" name="thoigian" value="{{ $banglai->thoigian ?? '' }}" placeholder="Thời gian" class="form-control">
+                </div>
+                <div class="form-group">
                     <label>Kích hoạt</label>
                     <input type="hidden" name="active" value="0">
                     <input type="checkbox" name="active" value="1" {{ isset($banglai) ? ($banglai->active ? 'checked' : '') : '' }}>

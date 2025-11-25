@@ -426,7 +426,7 @@ async function startExam() {
   exam      = data;
   examId    = data.exam_id;
   expiresAt = data.expires_at;
-
+debugger;
   tg.textContent      = data.thoi_gian_phut ?? '--';
   totalEl.textContent = data.so_cau ?? '--';
 

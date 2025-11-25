@@ -26,6 +26,7 @@
                             <th class="text-center">Tên</th>
                             <th class="text-center">Số câu hỏi</th>
                             <th class="text-center">Câu đúng tối thiểu</th>
+                            <th class="text-center">Thời gian</th>
                             <th class="text-center">Kích hoạt</th>
                             <th class="text-center">Hành Động</th>
                         </tr>
@@ -41,6 +42,7 @@
                                 {{ $banglai["socauhoi"] }}
                             </td>
                             <td>{{ $banglai["mincauhoidung"] }}</td>
+                            <td>{{ $banglai["thoigian"] }} phút</td>
                             <td>
                                 <input type="checkbox" @checked($banglai["active"] == 1) readonly onclick="return false;"/>
                             </td>

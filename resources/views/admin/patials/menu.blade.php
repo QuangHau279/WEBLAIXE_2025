@@ -126,6 +126,14 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="admin/dangki"><i class="fa fa-pencil fa-fw"></i>Đăng kí<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="admin/dangki"> Danh Sách Đăng kí</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

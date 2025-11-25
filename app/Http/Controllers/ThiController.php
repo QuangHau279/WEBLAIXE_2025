@@ -27,7 +27,8 @@ class ThiController extends Controller
 
         $presets = $bangs->mapWithKeys(function ($b) {
             $soCau    = (int) ($b->socauhoi ?: 25);
-            $thoiGian = max(10, (int) ceil($soCau * 1.2));
+            // $thoiGian = max(10, (int) ceil($soCau * 1.2));
+            $thoiGian = (int) ($b->thoigian ?: max(10, (int) ceil($soCau * 1.2)));
             
             // Kiểm tra số bộ đề có sẵn cho hạng này
             // $deAvailable = CauHoiBangLai::where('BangLaiId', $b->id)
@@ -111,7 +112,8 @@ class ThiController extends Controller
         // $hang = strtoupper(trim($bang->ten));
 
         $soCau    = (int) ($bang->socauhoi ?: 25);
-        $thoiGian = max(10, (int) ceil($soCau * 1.2));
+        //$thoiGian = max(10, (int) ceil($soCau * 1.2));
+        $thoiGian = (int) ($bang->thoigian ?: max(10, (int) ceil($soCau * 1.2)));
         $dauTu    = (int) ($bang->mincauhoidung ?: floor($soCau * 0.8));
 
         // Nếu chọn một bộ đề cụ thể (1..5) thì lọc theo cột BoDe
@@ -167,7 +169,8 @@ class ThiController extends Controller
             // Nếu chọn bộ đề cố định mà không đủ câu
             if (is_numeric($de)) {
                 $soCau = $chon->count();
-                $thoiGian = max(10, (int) ceil($soCau * 1.2));
+                //$thoiGian = max(10, (int) ceil($soCau * 1.2));
+                $thoiGian = (int) ($bang->thoigian ?: max(10, (int) ceil($soCau * 1.2)));
                 $dauTu = (int) floor($soCau * 0.8);
             } else {
                 // Nếu đề ngẫu nhiên mà không đủ → báo lỗi rõ ràng
