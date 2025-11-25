@@ -23,16 +23,16 @@
         </ul>
       </nav>
       <button class="btn-menu" id="btnMenu" aria-controls="menuRight" aria-expanded="false">
-        <span class="hamburger"></span><span>Menu</span>
+        <span class="hamburger"></span>
       </button>
     </div>
   </header>
 
   {{-- Offcanvas phải (đè lên 1 phần bên phải khi mở) --}}
   <aside id="menuRight" class="offcanvas" aria-hidden="true" role="dialog">
-    <header class="container nav" style="height:60px">
-      <span class="menu-title">Menu</span>
-      <button class="btn-menu" id="btnCloseMenu" aria-label="Đóng menu">✕</button>
+    <header class="nav" style="height:60px">
+      <!-- <span class="menu-title">Menu</span>
+      <button class="btn-menu" id="btnCloseMenu" aria-label="Đóng menu">✕</button> -->
     </header>
     <nav>
       <a href="{{ route('home') }}">

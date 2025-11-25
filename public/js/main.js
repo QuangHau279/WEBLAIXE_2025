@@ -139,7 +139,7 @@
     setTimeout(initStats, 100);
   }
 })();
-
+let isShown = false;
 /* ===== Off-canvas menu: safe init ===== */
 (() => {
   const q = (id) => document.getElementById(id);
@@ -153,21 +153,28 @@
     return;
   }
 
+  const showMenu = () => {
+    if (isShown)
+       close();
+    else open();
+  }
   const open = () => {
     menu.classList.add('open');
     menu.setAttribute('aria-hidden','false');
     btnMenu.setAttribute('aria-expanded','true');
     scrim?.classList.add('show');
+    isShown = true;
   };
   const close = () => {
     menu.classList.remove('open');
     menu.setAttribute('aria-hidden','true');
     btnMenu.setAttribute('aria-expanded','false');
     scrim?.classList.remove('show');
+    isShown = false;
   };
 
   // gắn listener
-  btnMenu.addEventListener('click', open);
+  btnMenu.addEventListener('click', showMenu);
   btnClose?.addEventListener('click', close);
   scrim?.addEventListener('click', close);
   window.addEventListener('keydown', e => e.key === 'Escape' && close());
