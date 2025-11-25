@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MoPhong;
+use App\Models\tblMoPhong;
 use Illuminate\Http\Request;
 
 class SimulationController extends Controller
@@ -24,7 +24,7 @@ class SimulationController extends Controller
                 // Đang làm bài (có video ID): Giữ session và lấy danh sách từ session
                 if ($request->session()->has($sessionKey)) {
                     $videoIds = $request->session()->get($sessionKey);
-                    $videos = MoPhong::where('active', true)
+                    $videos = tblMoPhong::where('active', true)
                         ->whereIn('id', $videoIds)
                         ->get()
                         ->sortBy(function($video) use ($videoIds) {
@@ -42,7 +42,7 @@ class SimulationController extends Controller
             }
         } else {
             // Ôn tập: Lấy tất cả video theo thứ tự
-            $videos = MoPhong::where('active', true)
+            $videos = tblMoPhong::where('active', true)
                 ->orderBy('stt')
                 ->get();
         }
@@ -80,7 +80,7 @@ class SimulationController extends Controller
     public function startTest(Request $request)
     {
         // Lấy ngẫu nhiên 10 video
-        $videos = MoPhong::where('active', true)
+        $videos = tblMoPhong::where('active', true)
             ->inRandomOrder()
             ->limit(10)
             ->get();
@@ -123,7 +123,7 @@ class SimulationController extends Controller
             'diem1end' => 'nullable|numeric|min:0',
         ]);
 
-        $video = MoPhong::findOrFail($request->video_id);
+        $video = tblMoPhong::findOrFail($request->video_id);
         
         $video->update([
             'diem5' => $request->diem5 ?? 0.0,
@@ -146,7 +146,7 @@ class SimulationController extends Controller
      */
     public function getVideo($id)
     {
-        $video = MoPhong::where('id', $id)
+        $video = tblMoPhong::where('id', $id)
             ->where('active', true)
             ->firstOrFail();
 
@@ -161,14 +161,14 @@ class SimulationController extends Controller
         $videoId = $request->query('v', null);
         
         // Lấy danh sách tất cả video
-        $videos = MoPhong::where('active', true)
+        $videos = tblMoPhong::where('active', true)
             ->orderBy('stt')
             ->get();
 
         // Chọn video cần cấu hình
         $mainVideo = null;
         if ($videoId) {
-            $mainVideo = MoPhong::where('id', $videoId)
+            $mainVideo = tblMoPhong::where('id', $videoId)
                 ->where('active', true)
                 ->first();
         }
