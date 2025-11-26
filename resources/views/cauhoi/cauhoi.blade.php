@@ -3,49 +3,6 @@
 
 @push('styles')
   <link rel="stylesheet" href="{{ asset('css/quiz-style.css') }}">
-  <style>
-    .search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      max-height: 300px;
-      overflow-y: auto;
-      z-index: 1000;
-      margin-top: 4px;
-    }
-    .search-result-item {
-      padding: 10px 15px;
-      cursor: pointer;
-      border-bottom: 1px solid #f0f0f0;
-      transition: background 0.2s;
-    }
-    .search-result-item:hover {
-      background: #f5f5f5;
-    }
-    .search-result-item:last-child {
-      border-bottom: none;
-    }
-    .search-result-stt {
-      font-weight: bold;
-      color: #007bff;
-      margin-right: 8px;
-    }
-    .search-result-snippet {
-      color: #666;
-      font-size: 0.9em;
-      margin-top: 4px;
-    }
-    .search-no-results {
-      padding: 15px;
-      text-align: center;
-      color: #999;
-    }
-  </style>
 @endpush
 
 @section('content')
