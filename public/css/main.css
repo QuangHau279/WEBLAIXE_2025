@@ -1201,3 +1201,7 @@ html{scroll-behavior:smooth}
     max-width: none;
   }
 }
+
+.card-body {
+  margin: 10px;
+}

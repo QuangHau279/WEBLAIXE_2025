@@ -21,23 +21,23 @@
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
+                            <h3 class="card-title">{{ $sign->code ?? 'N/A' }} - {{ $sign->title }}</h3>
+
                             @if($sign->image_path)
-                            <img src="{{ asset($sign->image_path) }}" class="card-img-top mb-3" alt="{{ $sign->title }}" style="height: 120px; object-fit: cover;">
+                            <img src="{{ asset('images/signs/' . $sign->image_path) }}" class="card-img-top mb-3" alt="{{ $sign->title }}" style="height: 120px; object-fit: cover;">
                             @else
                             <div class="bg-light d-flex align-items-center justify-content-center mb-3" style="height: 120px;">
                                 <span class="text-muted">Chưa có hình ảnh</span>
                             </div>
                             @endif
                             
-                            <h6 class="card-title">{{ $sign->code ?? 'N/A' }} - {{ $sign->title }}</h6>
-                            
                             @if($sign->description)
-                            <p class="card-text small text-muted">{{ $sign->description }}</p>
+                            <p class="card-text text-muted">{{ $sign->description }}</p>
                             @endif
                             
-                            @if($sign->source_attrib)
+                            <!-- @if($sign->source_attrib)
                             <small class="text-muted">{{ $sign->source_attrib }}</small>
-                            @endif
+                            @endif -->
                         </div>
                     </div>
                 </div>

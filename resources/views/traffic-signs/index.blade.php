@@ -11,9 +11,9 @@
             <div class="row">
                 @foreach($categories as $category)
                 <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100">
+                    <div class="card h-100" style="margin: 10px;">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $category->name }}</h5>
+                            <h3 class="card-title">{{ $category->name }}</h3>
                             <p class="card-text">
                                 <span class="badge bg-primary">{{ $category->signs->count() }} biển báo</span>
                             </p>
@@ -21,7 +21,7 @@
                                 Danh mục biển báo {{ strtolower($category->name) }} theo quy định của Việt Nam.
                             </p>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer" style="padding: 5px;">
                             <a href="{{ route('traffic-signs.show', $category->slug) }}" class="btn btn-primary">
                                 Xem chi tiết
                             </a>
