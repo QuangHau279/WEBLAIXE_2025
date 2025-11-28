@@ -186,6 +186,8 @@ Route::put('mophongbanglai/update/{id}', [TblMoPhongBangLaiController::class, 'u
 Route::get('mophongbanglai/add', [TblMoPhongBangLaiController::class, 'create']);
 Route::post('mophongbanglai/add', [TblMoPhongBangLaiController::class, 'store'])->name('mophongbanglai_store');
 Route::get('mophongbanglai/delete/{id}', [TblMoPhongBangLaiController::class, 'destroy'])->name('mophongbanglai_destroy');
+
+Route::get('/dangki', [LeadController::class, 'index'])->name('dangki_list');
 }
 );
 //END PHUC
