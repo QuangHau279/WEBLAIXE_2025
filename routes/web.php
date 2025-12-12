@@ -110,8 +110,15 @@ Route::get('/thi-thu/de/{id}', fn ($id) => view('thi.lamde', ['deId' => $id]))
 Route::get('/chatbox', fn() => view('pages.chatbox'))->name('chatbox');
 
 //PHUC
-Route::get('/index', [DashboardController::class, 'home'])->name('dashboard');
-Route::prefix('admin')->name('admin.')->group(function () {
+use App\Http\Controllers\AuthController;
+
+/* ========= ĐĂNG NHẬP ADMIN ========= */
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/index', [DashboardController::class, 'home'])->name('dashboard')->middleware('admin');
+Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });

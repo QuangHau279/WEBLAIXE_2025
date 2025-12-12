@@ -18,12 +18,20 @@
                 Tài Khoản <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                @if(Auth::user())
-                <li><a href="/"><i class="fa fa-user fa-fw"></i> {{ Auth::User()->name }}</a></li>
+                @if(Auth::check())
+                <li><a href="#"><i class="fa fa-user fa-fw"></i> {{ Auth::user()->name }}</a></li>
                 <li class="divider"></li>
-                <li><a href="logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                        @csrf
+                        <button type="submit" style="background: none; border: none; padding: 3px 20px; width: 100%; text-align: left; cursor: pointer; color: #333;">
+                            <i class="fa fa-sign-out fa-fw"></i> Đăng xuất
+                        </button>
+                    </form>
+                </li>
+                @else
+                <li><a href="{{ route('login') }}"><i class="fa fa-sign-in fa-fw"></i> Đăng nhập</a></li>
                 @endif
-                <li><a href="logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
             </ul>
             <!-- /.dropdown-user -->
         </li>
