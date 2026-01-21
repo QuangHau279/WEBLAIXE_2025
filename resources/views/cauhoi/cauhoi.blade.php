@@ -6,10 +6,13 @@
 @endpush
 
 @section('content')
-<div class="container quiz-page">
-  <div class="quiz-banner img-holder ratio-16x9"
-       style="background-image:url('{{ asset('images/hinhanh/banner1.png') }}')"></div>
+{{-- BANNER FULL-WIDTH (ngoài container) --}}
+<section class="quiz-banner-section" style="background-image:url('{{ asset('images/hinhanh/banner1.png') }}')">
+  <div class="quiz-banner-overlay"></div>
+</section>
 
+{{-- CONTENT (trong container) --}}
+<div class="container quiz-page">
   <h1 class="quiz-heading">Xe ô tô | Luật mới</h1>
 
   <div class="quiz-layout quiz-wrapper">

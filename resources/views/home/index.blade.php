@@ -2,17 +2,38 @@
 @section('title','Học lý thuyết 600 câu GPLX')
 
 @section('content')
-  {{-- HERO SECTION --}}
-  <section class="hero-section" style="background-image:url('{{ asset('images/hinhanh/banner1.png') }}')">
+  {{-- HERO SLIDESHOW SECTION --}}
+  <section class="hero-slideshow">
+    {{-- Slides --}}
+    <div class="slideshow-slides">
+      <div class="slide active" style="background-image:url('{{ asset('images/hinhanh/banner1.png') }}')"></div>
+      <div class="slide" style="background-image:url('{{ asset('images/hinhanh/banner2.png') }}')"></div>
+      <div class="slide" style="background-image:url('{{ asset('images/hinhanh/banner3.png') }}')"></div>
+    </div>
+    
+    {{-- Overlay --}}
     <div class="hero-overlay"></div>
+    
+    {{-- Content --}}
     <div class="container">
       <div class="hero-content">
-        <h1>TỰ TIN VƯỢT QUA KỲ THI SÁT HẠCH.</h1>
+        <h1 class="typing-effect" data-texts='["TỰ TIN VƯỢT QUA KỲ THI SÁT HẠCH", "HỌC LÝ THUYẾT DỄ DÀNG", "ĐẬU 100% NGAY LẦN ĐẦU"]'></h1>
         <p>Hệ thống ôn thi lý thuyết GPLX hàng đầu với bộ đề 600 câu cập nhật theo luật mới và 100% nội dung chuẩn.</p>
         <a href="{{ route('practice.cauhoi') }}" class="btn btn-primary btn-large">BẮT ĐẦU ÔN TẬP NGAY</a>
         <span class="social-proof">Đã giúp hơn 5000+ học viên vượt qua kỳ thi thành công.</span>
       </div>
     </div>
+    
+    {{-- Navigation Dots --}}
+    <div class="slideshow-dots">
+      <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
+      <button class="dot" data-slide="1" aria-label="Slide 2"></button>
+      <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+    </div>
+    
+    {{-- Navigation Arrows --}}
+    <button class="slideshow-arrow prev" aria-label="Slide trước"><i class="fas fa-chevron-left"></i></button>
+    <button class="slideshow-arrow next" aria-label="Slide sau"><i class="fas fa-chevron-right"></i></button>
   </section>
 
   {{-- TRUST BAR --}}
@@ -97,21 +118,21 @@
           <i class="fas fa-car-side" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; display: block;"></i>
           <h3>Hạng B, B1</h3>
           <p>Khóa học lái xe ô tô hạng B và B1. Toàn diện từ lý thuyết đến thực hành.</p>
-          <span class="price">Chỉ từ 7.900.000 VNĐ</span>
+          <span class="price">Chỉ từ 18.645.000 VNĐ</span>
           <a href="#dang-ky-form" class="btn btn-secondary" data-license="B">Đăng Ký Ngay</a>
         </div>
         <div class="course-card popular">
           <i class="fas fa-truck" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; display: block;"></i>
           <h3>Hạng C1</h3>
           <p>Nâng hạng lên C1 để lái xe tải, xe khách. Phù hợp cho mục đích kinh doanh.</p>
-          <span class="price">Chỉ từ 12.000.000 VNĐ</span>
+          <span class="price">Chỉ từ 20.645.000 VNĐ</span>
           <a href="#dang-ky-form" class="btn btn-secondary" data-license="C1">Đăng Ký Ngay</a>
         </div>
         <div class="course-card">
           <i class="fas fa-motorcycle" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; display: block;"></i>
           <h3>Hạng A, A1</h3>
           <p>Khóa học lái xe máy hạng A và A1. Cấp tốc, tập trung vào kỹ năng thực hành.</p>
-          <span class="price">Chỉ từ 1.500.000 VNĐ</span>
+          <span class="price">Chỉ từ 700.000 VNĐ</span>
           <a href="#dang-ky-form" class="btn btn-secondary" data-license="A1">Đăng Ký Ngay</a>
         </div>
       </div>
