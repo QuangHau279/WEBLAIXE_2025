@@ -13,13 +13,23 @@ use App\Models\tblMedia;
 class CauHoiController extends Controller
 {
 
-    // /api/grid -> trả danh sách số thứ tự để vẽ lưới
+    // /api/grid -> trả danh sách số thứ tự, chương và câu liệt
     public function grid()
     {
-        return tblCauHoi::orderBy('stt')->pluck('stt');
+        return tblCauHoi::orderBy('stt')
+            ->select('stt', 'chuong', 'cauliet')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'stt' => (int)$item->stt,
+                    'chuong' => (int)($item->chuong ?? 1),
+                    'cauliet' => (int)($item->cauliet ?? 0)
+                ];
+            })
+            ->toArray();
     }
 
-    // /api/xe-may/grid -> trả danh sách stt_250 của 250 câu xe máy
+    // /api/xe-may/grid -> trả danh sách stt_250, chuong và cauliet của 250 câu xe máy
     public function gridXeMay()
     {
         $query = tblCauHoi::query();
@@ -27,14 +37,21 @@ class CauHoiController extends Controller
         $query->whereNotNull('stt_250');
 
         $results = $query->orderBy('stt_250')
-                ->whereNotNull('stt_250')
-                ->pluck('stt_250')
-                ->filter(function ($value) {
-                    return $value !== null && $value !== '';
+                ->select('stt_250', 'chuong', 'cauliet')
+                ->get()
+                ->filter(function ($item) {
+                    return $item->stt_250 !== null && $item->stt_250 !== '';
                 })
                 ->values()
+                ->map(function ($item) {
+                    return [
+                        'stt' => (int)$item->stt_250,
+                        'chuong' => (int)($item->chuong ?? 1),
+                        'cauliet' => (int)($item->cauliet ?? 0)
+                    ];
+                })
                 ->toArray();
-            return $results;
+        return $results;
     }
 
     // /api/cauhoi/{stt} -> 1 câu + đáp án + ảnh

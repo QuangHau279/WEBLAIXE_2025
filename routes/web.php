@@ -41,7 +41,9 @@ Route::get('/thuc-hanh-lai-xe', [PracticeController::class, 'videosThucHanh'])
      ->name('videothuchanh');
 
 /* Ôn tập riêng cho Xe máy (A1) */
-Route::view('/on-tap-xe-may', 'pages.Ontapxemay')->name('xemay');
+Route::get('/on-tap-xe-may/{stt?}', function ($stt = null) {
+    return view('pages.Ontapxemay', ['initialStt' => $stt]);
+})->whereNumber('stt')->name('xemay');
 
 
 /* ========= ÔN TẬP 600 CÂU (CHUNG) =========

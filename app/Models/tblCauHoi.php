@@ -13,7 +13,7 @@ class tblCauHoi extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['id', 'stt', 'noidung', 'cauliet', 'giaithichdapan', 'active', 'in_250', 'stt_250'];
+    protected $fillable = ['id', 'stt', 'noidung', 'cauliet', 'giaithichdapan', 'active', 'in_250', 'stt_250', 'chuong'];
 
     public function dapAns()
     {

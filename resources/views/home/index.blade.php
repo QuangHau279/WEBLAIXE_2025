@@ -2,8 +2,8 @@
 @section('title','Học lý thuyết 600 câu GPLX')
 
 @section('content')
-  {{-- HERO SLIDESHOW SECTION --}}
-  <section class="hero-slideshow">
+  {{-- HERO SLIDESHOW SECTION - Clean Banner --}}
+  <section class="hero-slideshow hero-clean">
     {{-- Slides --}}
     <div class="slideshow-slides">
       <div class="slide active" style="background-image:url('{{ asset('images/hinhanh/banner1.png') }}')"></div>
@@ -11,18 +11,8 @@
       <div class="slide" style="background-image:url('{{ asset('images/hinhanh/banner3.png') }}')"></div>
     </div>
     
-    {{-- Overlay --}}
-    <div class="hero-overlay"></div>
-    
-    {{-- Content --}}
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="typing-effect" data-texts='["TỰ TIN VƯỢT QUA KỲ THI SÁT HẠCH", "HỌC LÝ THUYẾT DỄ DÀNG", "ĐẬU 100% NGAY LẦN ĐẦU"]'></h1>
-        <p>Hệ thống ôn thi lý thuyết GPLX hàng đầu với bộ đề 600 câu cập nhật theo luật mới và 100% nội dung chuẩn.</p>
-        <a href="{{ route('practice.cauhoi') }}" class="btn btn-primary btn-large">BẮT ĐẦU ÔN TẬP NGAY</a>
-        <span class="social-proof">Đã giúp hơn 5000+ học viên vượt qua kỳ thi thành công.</span>
-      </div>
-    </div>
+    {{-- Light Overlay for visibility --}}
+    <div class="hero-overlay hero-overlay-light"></div>
     
     {{-- Navigation Dots --}}
     <div class="slideshow-dots">
@@ -36,24 +26,60 @@
     <button class="slideshow-arrow next" aria-label="Slide sau"><i class="fas fa-chevron-right"></i></button>
   </section>
 
-  {{-- TRUST BAR --}}
-  <section class="trust-bar">
+  {{-- HERO CARD - Floating between banner and trust bar --}}
+  <section class="hero-card-section">
     <div class="container">
-      <div class="trust-item">
-        <i class="fas fa-book"></i>
-        <h4>600 Câu Hỏi Chuẩn</h4>
-      </div>
-      <div class="trust-item">
-        <i class="fas fa-chart-line"></i>
-        <h4>Thống Kê Tiến Độ</h4>
-      </div>
-      <div class="trust-item">
-        <i class="fas fa-headset"></i>
-        <h4>Hỗ Trợ 24/7</h4>
-      </div>
-      <div class="trust-item">
-        <i class="fas fa-medal"></i>
-        <h4>Tỉ Lệ Đậu Cao</h4>
+      <div class="hero-card-wrapper">
+        {{-- Left Column: Main CTA --}}
+        <div class="hero-card-left">
+          <h1 class="typing-effect" data-texts='["ĐẬU 100% NGAY LẦN ĐẦU", "HỌC LÝ THUYẾT DỄ DÀNG", "TỰ TIN VƯỢT QUA KỲ THI"]'></h1>
+          <p class="hero-subtitle">Hệ thống ôn thi lý thuyết GPLX hàng đầu với bộ đề 600 câu cập nhật theo luật mới và 100% nội dung chuẩn.</p>
+          
+          <!-- <p class="hero-desc">Đừng để việc học lái xe làm bạn lo lắng. Đăng ký ngay để được xếp lịch học sớm nhất và nhận mẹo thi bao đậu.</p> -->
+          
+          <a href="{{ route('practice.cauhoi') }}" class="btn btn-cta">BẮT ĐẦU ÔN TẬP NGAY</a>
+          <!-- <span class="social-proof">Đã giúp hơn 5000+ học viên vượt qua kỳ thi thành công.</span> -->
+          
+          {{-- Contact Info --}}
+          <div class="hero-contact">
+            <div class="contact-item">
+              <i class="fas fa-phone-alt"></i>
+              <div>
+                <span class="label">Gọi điện ngay</span>
+                <strong>0981686875</strong>
+              </div>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <span class="label">Vị Trí</span>
+                <strong>Thới Hòa, TP. Hồ Chí Minh</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {{-- Right Column: Benefits --}}
+        <div class="hero-card-right">
+          <ul class="hero-benefits">
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <span>Cam kết phí trọn gói, không phát sinh.</span>
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <span>Giáo viên giàu kinh nghiệm, nhiệt tình, không vội vĩnh.</span>
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <span>Được thi thử trên xe chip chấm điểm tự động.</span>
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <span>Hỗ trợ bổ túc tay lái sau khi có bằng.</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>

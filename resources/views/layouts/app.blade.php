@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="theme-color" content="#007bff">
-  <link rel="icon" type="image/png" href="{{ asset('images/hinhanh/Logo NO BG.png') }}">
-  <link rel="apple-touch-icon" href="{{ asset('images/hinhanh/Logo NO BG.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('images/hinhanh/LogoNOBG.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('images/hinhanh/LogoNOBG.png') }}">
   <title>@yield('title','LyThuyetLaiXe.vn')</title>
   <link rel="stylesheet" href="{{ asset('css/main.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -16,13 +16,19 @@
   <header class="site-header">
     <div class="container nav">
       <a href="{{ route('home') }}" class="logo">
-        <img src="{{ asset('images/hinhanh/Logo NO BG.png') }}" alt="Logo" class="logo-img">
+        <img src="{{ asset('images/hinhanh/LogoNOBG.png') }}" alt="Logo" class="logo-img">
         <span>LYTHUYETLAIXE.VN</span>
       </a>
       <nav class="main-nav">
         <ul>
           <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Trang Chủ</a></li>
-          <li><a href="{{ route('practice.cauhoi') }}">Ôn Thi</a></li>
+          <li class="has-dropdown">
+            <a href="#" class="dropdown-toggle">Ôn Thi <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="{{ route('xemay') }}"><i class="fas fa-motorcycle"></i> Xe máy (250 câu)</a></li>
+              <li><a href="{{ route('practice.cauhoi') }}"><i class="fas fa-car"></i> Xe ô tô (600 câu)</a></li>
+            </ul>
+          </li>
           <li><a href="{{ route('simulation') }}">Mô Phỏng</a></li>
           <li><a href="{{ route('bienbao') }}">Biển Báo</a></li>
         </ul>

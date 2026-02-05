@@ -128,15 +128,12 @@ class ThiController extends Controller
         }
 
         $query = tblCauHoi::where('active', 1);
-            // ->with(['hinhAnhs' => function ($q) {
-            //     $q->where('active', 1)->orderBy('stt');
-            // }]);
 
         if ($idsTheoBang->count() > 0) {
             $query->whereIn('id', $idsTheoBang);
         }
 
-        $all = $query->get(['id', 'stt', 'noidung', 'cauliet']);
+        $all = $query->get(['id', 'stt', 'noidung', 'cauliet', 'chuong']);
 
         if ($all->count() === 0) {
             $message = is_numeric($de) 
@@ -145,19 +142,181 @@ class ThiController extends Controller
             return response()->json(['message' => $message], 404);
         }
 
+        // Kiểm tra nếu là hạng xe máy A1 hoặc A
+        $isXeMay = in_array(strtoupper($hang), ['A1', 'A']);
+
         // Tạo đề:
-        // - Nếu de là RANDOM (hoặc null) ⇒ chọn ngẫu nhiên nhưng đảm bảo có ít nhất 1 câu liệt.
-        // - Nếu de là 1..5 ⇒ theo bộ cố định, nếu không đủ thì lấy tất cả có trong bộ đề đó.
+        // - Nếu de là RANDOM (hoặc null) ⇒ chọn ngẫu nhiên
+        // - Nếu de là 1..5 ⇒ theo bộ cố định
         if (!is_numeric($de)) {
-            // Đề ngẫu nhiên: đảm bảo có ít nhất 1 câu liệt
-            $liet = $all->where('cauliet', 1);
-            if ($liet->count() > 0) {
-                $oneLiet = $liet->random(1);
-                $remain  = $all->whereNotIn('id', $oneLiet->pluck('id'))
-                               ->shuffle()->take(max(0, $soCau - 1));
-                $chon = $oneLiet->concat($remain)->shuffle();
+            if ($isXeMay) {
+                // ===== ĐỀ NGẪU NHIÊN XE MÁY A1/A =====
+                // Phân bổ theo chương: 8-1-1-1-8-6 = 25 câu
+                // Chương 1: 8 câu quy định chung
+                // Câu liệt: 1 câu (lấy từ câu có cauliet = 1)
+                // Chương 2: 1 câu văn hóa giao thông
+                // Chương 3 hoặc 4: 1 câu kỹ thuật/cấu tạo
+                // Chương 5: 8 câu báo hiệu đường bộ
+                // Chương 6: 6 câu sa hình và xử lý tình huống
+                
+                $chon = collect();
+                
+                // 1. Lấy 8 câu ngẫu nhiên từ chương 1 (không lấy câu liệt)
+                $ch1 = $all->where('chuong', 1)->where('cauliet', '!=', 1)->shuffle()->take(8);
+                foreach ($ch1 as $q) {
+                    $q->order_priority = 1;
+                }
+                $chon = $chon->concat($ch1);
+                
+                // 2. Lấy 1 câu liệt (cauliet = 1) - đặt sau chương 1
+                $liet = $all->where('cauliet', 1);
+                if ($liet->count() > 0) {
+                    $oneLiet = $liet->random(1);
+                    foreach ($oneLiet as $q) {
+                        $q->order_priority = 1.5; // Sau chương 1, trước chương 2
+                    }
+                    $chon = $chon->concat($oneLiet);
+                }
+                
+                // 3. Lấy 1 câu từ chương 2
+                $ch2 = $all->where('chuong', 2)->where('cauliet', '!=', 1)->shuffle()->take(1);
+                foreach ($ch2 as $q) {
+                    $q->order_priority = 2;
+                }
+                $chon = $chon->concat($ch2);
+                
+                // 4. Lấy 1 câu từ chương 3 hoặc 4
+                $ch34 = $all->whereIn('chuong', [3, 4])->where('cauliet', '!=', 1)->shuffle()->take(1);
+                foreach ($ch34 as $q) {
+                    $q->order_priority = 3;
+                }
+                $chon = $chon->concat($ch34);
+                
+                // 5. Lấy 8 câu từ chương 5
+                $ch5 = $all->where('chuong', 5)->where('cauliet', '!=', 1)->shuffle()->take(8);
+                foreach ($ch5 as $q) {
+                    $q->order_priority = 5;
+                }
+                $chon = $chon->concat($ch5);
+                
+                // 6. Lấy 6 câu từ chương 6
+                $ch6 = $all->where('chuong', 6)->where('cauliet', '!=', 1)->shuffle()->take(6);
+                foreach ($ch6 as $q) {
+                    $q->order_priority = 6;
+                }
+                $chon = $chon->concat($ch6);
+                
+                // Sắp xếp theo order_priority (1 -> 1.5 -> 2 -> 3 -> 5 -> 6)
+                $chon = $chon->sortBy('order_priority')->values();
+                
             } else {
-                $chon = $all->shuffle()->take($soCau);
+                // ===== ĐỀ NGẪU NHIÊN XE Ô TÔ B/B1/B2/C1 =====
+                $hangUpper = strtoupper($hang);
+                $isB1 = in_array($hangUpper, ['B1']); // 30 câu
+                $isB2orC1 = in_array($hangUpper, ['B', 'B2', 'C1']); // 35 câu
+
+                if ($isB1) {
+                    // ===== HẠNG B1 (30 câu): 9-1-1-1-1-9-8 =====
+                    $chon = collect();
+                    
+                    // Chương 1: 9 câu
+                    $ch1 = $all->where('chuong', 1)->where('cauliet', '!=', 1)->shuffle()->take(9);
+                    foreach ($ch1 as $q) { $q->order_priority = 1; }
+                    $chon = $chon->concat($ch1);
+                    
+                    // Câu điểm liệt: 1 câu
+                    $liet = $all->where('cauliet', 1);
+                    if ($liet->count() > 0) {
+                        $oneLiet = $liet->random(1);
+                        foreach ($oneLiet as $q) { $q->order_priority = 1.5; }
+                        $chon = $chon->concat($oneLiet);
+                    }
+                    
+                    // Chương 2: 1 câu
+                    $ch2 = $all->where('chuong', 2)->where('cauliet', '!=', 1)->shuffle()->take(1);
+                    foreach ($ch2 as $q) { $q->order_priority = 2; }
+                    $chon = $chon->concat($ch2);
+                    
+                    // Chương 3: 1 câu
+                    $ch3 = $all->where('chuong', 3)->where('cauliet', '!=', 1)->shuffle()->take(1);
+                    foreach ($ch3 as $q) { $q->order_priority = 3; }
+                    $chon = $chon->concat($ch3);
+                    
+                    // Chương 4: 1 câu
+                    $ch4 = $all->where('chuong', 4)->where('cauliet', '!=', 1)->shuffle()->take(1);
+                    foreach ($ch4 as $q) { $q->order_priority = 4; }
+                    $chon = $chon->concat($ch4);
+                    
+                    // Chương 5: 9 câu
+                    $ch5 = $all->where('chuong', 5)->where('cauliet', '!=', 1)->shuffle()->take(9);
+                    foreach ($ch5 as $q) { $q->order_priority = 5; }
+                    $chon = $chon->concat($ch5);
+                    
+                    // Chương 6: 8 câu
+                    $ch6 = $all->where('chuong', 6)->where('cauliet', '!=', 1)->shuffle()->take(8);
+                    foreach ($ch6 as $q) { $q->order_priority = 6; }
+                    $chon = $chon->concat($ch6);
+                    
+                    // Sắp xếp theo chương
+                    $chon = $chon->sortBy('order_priority')->values();
+                    
+                } elseif ($isB2orC1) {
+                    // ===== HẠNG B2/C1 (35 câu): 10-1-1-2-1-10-10 =====
+                    $chon = collect();
+                    
+                    // Chương 1: 10 câu
+                    $ch1 = $all->where('chuong', 1)->where('cauliet', '!=', 1)->shuffle()->take(10);
+                    foreach ($ch1 as $q) { $q->order_priority = 1; }
+                    $chon = $chon->concat($ch1);
+                    
+                    // Câu điểm liệt: 1 câu
+                    $liet = $all->where('cauliet', 1);
+                    if ($liet->count() > 0) {
+                        $oneLiet = $liet->random(1);
+                        foreach ($oneLiet as $q) { $q->order_priority = 1.5; }
+                        $chon = $chon->concat($oneLiet);
+                    }
+                    
+                    // Chương 2: 1 câu
+                    $ch2 = $all->where('chuong', 2)->where('cauliet', '!=', 1)->shuffle()->take(1);
+                    foreach ($ch2 as $q) { $q->order_priority = 2; }
+                    $chon = $chon->concat($ch2);
+                    
+                    // Chương 3: 2 câu
+                    $ch3 = $all->where('chuong', 3)->where('cauliet', '!=', 1)->shuffle()->take(2);
+                    foreach ($ch3 as $q) { $q->order_priority = 3; }
+                    $chon = $chon->concat($ch3);
+                    
+                    // Chương 4: 1 câu
+                    $ch4 = $all->where('chuong', 4)->where('cauliet', '!=', 1)->shuffle()->take(1);
+                    foreach ($ch4 as $q) { $q->order_priority = 4; }
+                    $chon = $chon->concat($ch4);
+                    
+                    // Chương 5: 10 câu
+                    $ch5 = $all->where('chuong', 5)->where('cauliet', '!=', 1)->shuffle()->take(10);
+                    foreach ($ch5 as $q) { $q->order_priority = 5; }
+                    $chon = $chon->concat($ch5);
+                    
+                    // Chương 6: 10 câu
+                    $ch6 = $all->where('chuong', 6)->where('cauliet', '!=', 1)->shuffle()->take(10);
+                    foreach ($ch6 as $q) { $q->order_priority = 6; }
+                    $chon = $chon->concat($ch6);
+                    
+                    // Sắp xếp theo chương
+                    $chon = $chon->sortBy('order_priority')->values();
+                    
+                } else {
+                    // Các hạng khác: logic cũ
+                    $liet = $all->where('cauliet', 1);
+                    if ($liet->count() > 0) {
+                        $oneLiet = $liet->random(1);
+                        $remain  = $all->whereNotIn('id', $oneLiet->pluck('id'))
+                                       ->shuffle()->take(max(0, $soCau - 1));
+                        $chon = $oneLiet->concat($remain)->shuffle();
+                    } else {
+                        $chon = $all->shuffle()->take($soCau);
+                    }
+                }
             }
         } else {
             // Bộ đề cố định: lấy ngẫu nhiên từ bộ đề đó, nhưng không quá số câu có

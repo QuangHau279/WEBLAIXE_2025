@@ -3,57 +3,50 @@
 
 @push('styles')
   <link rel="stylesheet" href="{{ asset('css/quiz-style.css') }}">
-  <style>
-    .search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      max-height: 300px;
-      overflow-y: auto;
-      z-index: 1000;
-      margin-top: 4px;
-    }
-    .search-result-item {
-      padding: 10px 15px;
-      cursor: pointer;
-      border-bottom: 1px solid #f0f0f0;
-      transition: background 0.2s;
-    }
-    .search-result-item:hover {
-      background: #f5f5f5;
-    }
-    .search-result-item:last-child {
-      border-bottom: none;
-    }
-    .search-result-stt {
-      font-weight: bold;
-      color: #007bff;
-      margin-right: 8px;
-    }
-    .search-result-snippet {
-      color: #666;
-      font-size: 0.9em;
-      margin-top: 4px;
-    }
-    .search-no-results {
-      padding: 15px;
-      text-align: center;
-      color: #999;
-    }
-  </style>
 @endpush
 
 @section('content')
-<div class="container quiz-page">
-  <div class="quiz-banner img-holder ratio-16x9"
-       style="background-image:url('{{ asset('images/hinhanh/banner1.png') }}')"></div>
+{{-- BANNER FULL-WIDTH (ngoài container) --}}
+<section class="quiz-banner-section" style="background-image:url('{{ asset('images/hinhanh/banner1.png') }}')">
+  <div class="quiz-banner-overlay"></div>
+</section>
 
+{{-- CONTENT (trong container) --}}
+<div class="container quiz-page">
   <h1 class="quiz-heading">Xe máy | Luật mới</h1>
+
+  {{-- CHAPTER TABS - Đặt ở trên, nổi bật --}}
+  <div class="chapter-tabs" id="chapterTabs">
+    <button class="chapter-tab active" data-chapter="0">
+      Tất cả <span class="tab-count">250</span>
+    </button>
+    <button class="chapter-tab" data-chapter="1">
+      Chương 1 <span class="tab-count"></span>
+    </button>
+    <button class="chapter-tab" data-chapter="2">
+      Chương 2 <span class="tab-count"></span>
+    </button>
+    <button class="chapter-tab" data-chapter="3">
+      Chương 3 <span class="tab-count"></span>
+    </button>
+    <button class="chapter-tab" data-chapter="4">
+      Chương 4 <span class="tab-count"></span>
+    </button>
+    <button class="chapter-tab" data-chapter="5">
+      Chương 5 <span class="tab-count"></span>
+    </button>
+    <button class="chapter-tab" data-chapter="6">
+      Chương 6 <span class="tab-count"></span>
+    </button>
+    <button class="chapter-tab chapter-tab-liet" data-chapter="liet">
+      <i class="fas fa-exclamation-triangle"></i> Câu điểm liệt <span class="tab-count">0</span>
+    </button>
+  </div>
+
+  {{-- Hiển thị tên chương đang chọn --}}
+  <div class="chapter-info" id="chapterInfo">
+    <strong>Tất cả:</strong> 250 câu hỏi lý thuyết xe máy
+  </div>
 
   <div class="quiz-layout quiz-wrapper">
     {{-- SIDEBAR --}}
@@ -64,8 +57,8 @@
         <div id="search-results" class="search-results" style="display: none;"></div>
       </div>
 
-      <div class="question-grid">
-        {{-- Grid sẽ được render bởi JavaScript từ API --}}
+      <div class="question-grid" id="questionGrid">
+        {{-- Grid sẽ được render bằng JavaScript --}}
       </div>
 
       <div class="sidebar-actions">
@@ -97,11 +90,18 @@
       apiBase: "{{ url('/api/xe-may') }}",
       initialStt: {{ $initialStt ?? 'null' }},
       isXeMay: true,
-      maxQuestions: 250
+      maxQuestions: 250,
+      chapters: [
+        { id: 0, name: 'Tất cả', desc: '250 câu hỏi lý thuyết xe máy' },
+        { id: 1, name: 'Chương 1', desc: 'Quy định chung và quy tắc giao thông đường bộ' },
+        { id: 2, name: 'Chương 2', desc: 'Văn hóa giao thông, đạo đức người lái xe' },
+        { id: 3, name: 'Chương 3', desc: 'Kỹ thuật lái xe' },
+        { id: 4, name: 'Chương 4', desc: 'Cấu tạo và sửa chữa' },
+        { id: 5, name: 'Chương 5', desc: 'Báo hiệu đường bộ' },
+        { id: 6, name: 'Chương 6', desc: 'Giải thế sa hình và kỹ năng xử lý tình huống' }
+      ]
     };
     window.QUESTION_API = window.QUIZ_CONFIG.apiBase;
-
-    // Tìm kiếm sẽ được xử lý trong quiz-logic-xemay.js
   </script>
   <script src="{{ asset('js/quiz-logic-xemay.js') }}" defer></script>
 @endpush

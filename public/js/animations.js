@@ -274,7 +274,7 @@
 
     let currentSlide = 0;
     let autoPlayInterval = null;
-    const INTERVAL = 3000; // 3 giây
+    const INTERVAL = 5000; // 5 giây
 
     // Hiển thị slide theo index
     function showSlide(index) {
