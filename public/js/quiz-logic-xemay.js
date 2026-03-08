@@ -138,9 +138,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     const chapterInfoEl = document.getElementById('chapterInfo');
 
     if (chapterKey === 'liet') {
-      // Lọc câu điểm liệt
+      // Lọc câu điểm liệt - chỉ lấy 20 câu đầu tiên
       grid = fullGridData
         .filter(item => item.cauliet === 1)
+        .slice(0, 20)
         .map(item => item.stt);
 
       if (chapterInfoEl) {
